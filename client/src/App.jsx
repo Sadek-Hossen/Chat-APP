@@ -3,7 +3,7 @@ import "./App.css";
 import Left from "./home/left/Left";
 import Right from "./home/right/Right";
 import Logout from "./home/logout/Logout";
-import SignUp from "./components/signUp";
+import SignUp from "./components/SignUp"
 import Login from "./components/Login";
 import { useAuth } from "./context/AuthProvider";
 import { Navigate, Route, Routes } from "react-router-dom";
