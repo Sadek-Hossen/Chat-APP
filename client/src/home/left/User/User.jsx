@@ -1,30 +1,22 @@
 import React from "react";
+import { FaUser } from "react-icons/fa"; // human icon
 import useConversation from "../../../stateManage/UseConversation.js";
 import { useSocketContext } from "../../../context/SocketContext.jsx";
 
 function User({ user }) {
-  const { onlineUsers } = useSocketContext(); // onlineUser না, onlineUsers হবে
-  
-  // safety check - if user is undefined, don't render
-  if (!user || !user._id) {
-    console.log("Invalid user object:", user);
-    return null;
-  }
+  const { onlineUsers } = useSocketContext();
 
-  // Check if onlineUsers exists and is an array before using includes
-  const isOnline = onlineUsers && Array.isArray(onlineUsers) 
-    ? onlineUsers.includes(user._id) 
+  if (!user || !user._id) return null;
+
+  const isOnline = onlineUsers && Array.isArray(onlineUsers)
+    ? onlineUsers.includes(user._id)
     : false;
 
   const { name, _id: userId, image } = user;
-
   const { selectedConversation, setSelectedConversation } = useConversation();
-
   const isSelected = selectedConversation?._id === userId;
 
-  const handleUserClick = () => {
-    setSelectedConversation(user);
-  };
+  const handleUserClick = () => setSelectedConversation(user);
 
   return (
     <div
@@ -34,18 +26,19 @@ function User({ user }) {
     >
       {/* Avatar with online status */}
       <div className="relative">
-        <div className="w-12 h-12 rounded-full overflow-hidden">
-          <img
-            src={
-              image ||
-              "https://img.daisyui.com/images/profile/demo/gordon@192.webp"
-            }
-            alt={name || "User"}
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              e.target.src = "https://img.daisyui.com/images/profile/demo/gordon@192.webp";
-            }}
-          />
+        <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gray-700 text-white text-2xl overflow-hidden">
+          {image ? (
+            <img
+              src={image}
+              alt={name || "User"}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.src = ""; // fail-safe, icon will show
+              }}
+            />
+          ) : (
+            <FaUser />
+          )}
         </div>
         {/* Online status indicator */}
         {isOnline && (

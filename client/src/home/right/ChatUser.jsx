@@ -1,5 +1,6 @@
 import { useSocketContext } from "../../context/SocketContext";
 import useConversation from "../../stateManage/UseConversation";
+import { FaUser } from "react-icons/fa";
 
 function ChatUser() {
   const { selectedConversation } = useConversation();
@@ -17,16 +18,18 @@ function ChatUser() {
       
       {/* Dynamic avatar */}
       <div className={`avatar ${isOnline ? "avatar-online" : "avatar-offline"}`}>
-        <div className="w-14 rounded-full">
-          <img
-            src={
-              selectedConversation.image ||
-              "https://img.daisyui.com/images/profile/demo/gordon@192.webp"
-            }
-            alt="user avatar"
-          />
-        </div>
-      </div>
+  <div className="w-14 h-14 flex items-center justify-center rounded-full bg-gray-600 text-white text-2xl">
+    {selectedConversation.image ? (
+      <img
+        src={selectedConversation.image}
+        alt="user avatar"
+        className="rounded-full w-full h-full object-cover"
+      />
+    ) : (
+      <FaUser />
+    )}
+  </div>
+</div>
 
       <div>
         <h1 className="text-white font-semibold leading-tight">
